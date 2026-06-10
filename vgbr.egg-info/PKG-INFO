@@ -1,0 +1,22 @@
+Metadata-Version: 2.4
+Name: vgbr
+Version: 0.1.0
+Summary: Verifier-Guided Budgeted Routing for Energy-Constrained LLM Inference
+Requires-Python: >=3.10
+Requires-Dist: sentence-transformers>=2.7
+Requires-Dist: torch>=2.2
+Requires-Dist: networkx>=3.3
+Requires-Dist: dimod>=0.12
+Requires-Dist: dwave-neal>=0.6
+Requires-Dist: optuna>=3.6
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: numpy>=1.26
+Requires-Dist: tqdm>=4.66
+Provides-Extra: dev
+Requires-Dist: pytest>=8.0; extra == "dev"
+Requires-Dist: pytest-cov>=5.0; extra == "dev"
+Requires-Dist: ruff>=0.4; extra == "dev"
+Requires-Dist: mypy>=1.10; extra == "dev"
+Provides-Extra: plots
+Requires-Dist: matplotlib>=3.9; extra == "plots"
+Requires-Dist: seaborn>=0.13; extra == "plots"

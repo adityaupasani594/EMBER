@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vgbr"
+version = "0.1.0"
+description = "Verifier-Guided Budgeted Routing for Energy-Constrained LLM Inference"
+requires-python = ">=3.10"
+dependencies = [
+    "sentence-transformers>=2.7",
+    "torch>=2.2",
+    "networkx>=3.3",
+    "dimod>=0.12",
+    "dwave-neal>=0.6",
+    "optuna>=3.6",
+    "pyyaml>=6.0",
+    "numpy>=1.26",
+    "tqdm>=4.66",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "ruff>=0.4",
+    "mypy>=1.10",
+]
+plots = [
+    "matplotlib>=3.9",
+    "seaborn>=0.13",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts   = "-v --tb=short"
+
+[tool.ruff]
+target-version = "py310"
+line-length    = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.mypy]
+python_version         = "3.10"
+strict                 = true
+ignore_missing_imports = true
