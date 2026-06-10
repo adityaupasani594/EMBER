@@ -1,0 +1,55 @@
+# configs/default.yaml
+# ---------------------
+# Default configuration schema for the EMBER (VGBR) framework.
+#
+# All numeric values are treated as floats unless noted otherwise.
+# Override individual keys via environment-specific YAML files that are
+# deep-merged on top of this file at runtime.
+
+# ---------------------------------------------------------------------------
+# Stage thresholds  τ_s
+# ---------------------------------------------------------------------------
+# Per-stage confidence cutoff used by the ThresholdGate.
+# Routing halts at stage s when  v_s(q, ỹ_s) >= thresholds.tau_s[s].
+# Values must be in [0.0, 1.0]; higher = stricter quality gate.
+#
+# Paper reference: §3 — s*(q) = min { s : Conf_s(q) >= τ_s }
+thresholds:
+  tau_0: 0.90   # Stage 0 – Reflex          (fastest, lowest bar)
+  tau_1: 0.85   # Stage 1 – Knowledge
+  tau_2: 0.80   # Stage 2 – Reasoning
+  tau_3: 0.75   # Stage 3 – Deep Reasoning
+  tau_4: 0.70   # Stage 4 – Expert Selection (slowest, still need a gate)
+
+# ---------------------------------------------------------------------------
+# Budget constraints
+# ---------------------------------------------------------------------------
+# Hard ceilings used in the constrained optimisation variant (§2.2).
+#
+#   max_π  E[ U(q, ŷ_π(q)) ]
+#   s.t.   E[C_π(q)] ≤ B_E ,   E[L_π(q)] ≤ B_L
+budgets:
+  # B_E — maximum allowable expected energy per query (Joules).
+  energy_joules: 0.50
+
+  # B_L — maximum allowable expected wall-clock latency per query (ms).
+  latency_ms: 2000.0
+
+# ---------------------------------------------------------------------------
+# Lambda penalty weights  (unconstrained objective, §2.1)
+# ---------------------------------------------------------------------------
+# Used when running the *unconstrained* formulation:
+#
+#   max_π  E[ U(q,ŷ) ] - λ_E · E[C_π(q)] - λ_L · E[L_π(q)] - λ_R · E[R_π(q)]
+#
+# Tune these to trade off accuracy against energy / latency / regret.
+lambdas:
+  # λ_E — penalty per Joule of hardware energy consumption.
+  energy: 0.10
+
+  # λ_L — penalty per millisecond of wall-clock latency.
+  latency: 0.05
+
+  # λ_R — penalty for escalation regret (wasted energy on failed low-tier
+  #        attempts before the query was ultimately answered at a higher tier).
+  regret: 0.20
